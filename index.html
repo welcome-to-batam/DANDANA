@@ -1,34 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Video Player</title>
-    <style>
-        video { display: block; margin-top: 20px; max-width: 100%; }
-    </style>
-</head>
-<body>
-    <h1>Video Saya</h1>
-    <input type="file" id="videoUploader" accept="video/*">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#10b981" />
+    <meta name="description" content="BA-NG-JEK - Aplikasi ojek online di Batam. Pesan ojek motor dan mobil dengan mudah." />
 
-    <!-- Gunakan src langsung pada tag video -->
-    <video id="videoPlayer" controls src="review.mp4" width="640">
-        Browser Anda tidak mendukung video.
-    </video>
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
 
-    <script>
-        const videoUploader = document.getElementById('videoUploader');
-        const videoPlayer = document.getElementById('videoPlayer');
+    <!-- iOS Safari PWA support -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="BA-NG-JEK" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
 
-        videoUploader.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const fileURL = URL.createObjectURL(file);
-                // Mengganti src video yang sedang diputar
-                videoPlayer.src = fileURL; 
-                videoPlayer.play();
-            }
-        });
-    </script>
-</body>
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#10b981" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/icons/icon-192x192.svg" />
+
+    <title>BA-NG-JEK - Ojek Online Batam</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script type="module" crossorigin src="/assets/index-CcKNiOn4.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BMPxKfXO.css">
+  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>
