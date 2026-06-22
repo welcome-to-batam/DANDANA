@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ALFA - Online Shopping</title>
@@ -13,7 +12,7 @@
   <style>
     .hero {
   position: relative;
-  background-image: url(gambar.jpg); /* ganti nama file sesuai gambar kamu */
+  background-image: url('gambar.jpg'); /* ganti nama file sesuai gambar kamu */
   background-size: cover;
   background-position: center;
   height: 280px;
@@ -97,7 +96,7 @@
     }
     
     .product {
-      background: green;
+      background: yellow;
       border-radius: 10px;
       padding: 15px;
       text-align: center;
@@ -250,18 +249,14 @@
   font-weight: bold;
   cursor: pointer;
 }
-    
+
 .product-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* INI KUNCINYA. Biar nggak melar, fotonya kepotong rapi */
-  cursor: pointer;
+  cursor: zoom-in;
 }
-    
     /* === HEADER HERO === */
 .hero {
   position: relative;
-  background-image: url('jembatanbarelang.jpg'); /* ganti nama file sesuai gambar kamu */
+  background-image: url('gambar.jpg'); /* ganti nama file sesuai gambar kamu */
   background-size: cover;
   background-position: center;
   height: 280px;
@@ -309,8 +304,8 @@
   border: 3px solid white;
   object-fit: cover;
 }
-    
- /* === RESPONSIF UNTUK HP KECIL === */
+
+/* === RESPONSIF UNTUK HP KECIL === */
 @media (max-width: 480px) {
   .hero {
     height: 220px;
@@ -330,164 +325,146 @@
     height: 65px;
   }
 }
-    .product-img-wrap {
-  width: 100%;
-  height: 200px; /* Tinggi kotaknya. Mau 350px/450px terserah */
-  background: #f5f5f5; /* Ganti ijonya jadi abu-abu muda */
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.swiper {
-  width: 100%;
-  height: 100%;
-}
-
-.swiper-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Biar nggak gepeng */
-}
-
-    .lightbox {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.9);
-  align-items: center;
-  justify-content: center;
-    }
-    
-.lightbox .swiper {
-  width: 90%;
-  height: 80%;
-}
-    
-.swiper-zoom-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-    
-.swiper-zoom-container img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-    
-.close-lightbox {
-  position: absolute;
-  top: 20px; right: 35px;
-  color: #fff; font-size: 40px;
-  font-weight: bold; cursor: pointer;
-  z-index: 10000;
-}
-    
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-  
-const swiper = new Swiper(".mySwiper", {
-  zoom: {
-    enabled: true,
-    maxRatio: 3
-  },
-  pagination: { el: ".swiper-pagination", clickable: true }
-});
-
-window.bukaLightbox = function(index) {  // baris 396
-  document.getElementById('lightbox').style.display = 'flex';
-  swiper.slideTo(index, 0);  // baris baru
-}
-  
-function tutupLightbox(e) {
-  if(e.target.classList.contains('lightbox') || e.target.classList.contains('close-lightbox')) {
-    document.getElementById('lightbox').style.display = 'none';
-  }
-}
-</script>
 </head>
-  
-<!-- LIGHTBOX UNTUK SWIPER 10 FOTO -->
-<div id="lightbox" class="lightbox" onclick="tutupLightbox(event)">
+  <!-- LIGHTBOX UNTUK ZOOM FOTO -->
+<div id="lightbox" class="lightbox" onclick="tutupLightbox()">
   <span class="close-lightbox">&times;</span>
-  
-  <div class="swiper mySwiper">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide"><div class="swiper-zoom-container"><img src="twsbirufarpeak.jpg" /></div></div>
-      <div class="swiper-slide"><div class="swiper-zoom-container"><img src="twsbiru1.jpg" /></div></div>
-      <div class="swiper-slide"><div class="swiper-zoom-container"><img src="twsbiru2.jpg" /></div></div>
-      <div class="swiper-slide"><div class="swiper-zoom-container"><img src="twsbiru3.jpg" /></div></div>
-      <div class="swiper-slide"><div class="swiper-zoom-container"><img src="twsbiru4.jpg" /></div></div>
-      <div class="swiper-slide"><div class="swiper-zoom-container"><img src="twsbiru5.jpg" /></div></div>
-      <div class="swiper-slide"><div class="swiper-zoom-container"><img src="twsbiru6.jpg" /></div></div>
-      <div class="swiper-slide"><div class="swiper-zoom-container"><img src="twsbiru7.jpg" /></div></div>
-      <div class="swiper-slide"><div class="swiper-zoom-container"><img src="twsbiru8.jpg" /></div></div>
-      <div class="swiper-slide"><div class="swiper-zoom-container"><img src="twswarnakulit.jpg" /></div></div>
-    </div>
-    <div class="swiper-pagination"></div>
-  </div>
+  <img id="lightbox-img" src="">
 </div>
+
 <body>
   
  <header class="hero">
   <img src="logomerahmuda.jpg" alt="Logo ALFA" class="logo">
   <h1>ALFA</h1>
   <p>Online Shopping</p>
-  <p>💖WELCOME TO BATAM💖</p>
-  </header>
+  <p>WELCOME TO BATAM</p>
+ </header>
 
-<div class="info-box">
+  <div class="info-box">
   <h3>Selamat Datang di ALFA Online Shopping</h3>
   <p>Belanja online tanpa ribet dengan harga terbaik, <strong>scroll kebawah untuk mendapatkan Gratis Ongkir Sekota Batam!</strong></p>
   <p style="margin-top: 12px;"><strong>Cara Order Gampang:</strong></p>
   <p>1. Klik Foto untuk lihat Foto Lebih Besar</p>
   <p>2. Klik Tombol ℹ️ untuk Melihat Deskripsi</p>
-  <p>3. Klik "Tombol WhatsApp" dibawah ini 👇 untuk Membeli</p>
+  <p>3. Klik "Pesan via WhatsApp" untuk Membeli</p>
   <h3>Selamat Ber Belanja</h3>
-  <a href="https://wa.me/6283879387000?text=Halo%20ALFA%20Shop,%20saya%20mau%20Membeli%20(Ketik%20Nama%20Produk%20yang%20Ingin%20Dibeli)%20Disini👉" 
-         target="_blank"
-         class="btn-wa">
-         ☎️ Pesan Via WhatsApp ☎️
-  </a>
 </div>
 
 <div class="container">
 
     <!-- PRODUK 1 -->
     <div class="product">
-      <div class="product-img-wrap">
-        <img src="twsbirufarpeak.jpg" alt="TWS" onclick="bukaLightbox(0)">
-        <button class="btn-info" onclick="bukaModal('modal1')">ℹ️</button>
-      </div>
-      <h3>TWS Warna Biru KOSONG</h3>
-      <p><strong>Harga: Rp55.000</strong></p>
+     <div class="product-img-wrap">
+  <img src="bajubiru1.jpg" alt="Celana Pendek" onclick="bukaLightbox(this.src)">
+       <button class="btn-info" onclick="bukaModal('modal1')">ℹ️</button>
+     </div>
+      <h3>Produk 1</h3>
+      <p><strong>Harga: Rp00.000</strong></p>
+      <a href="https://wa.me/62084?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Distro%20Kode%20ALFA0001" 
+         target="_blank"
+         class="btn-wa">
+         🛒 Pesan via WhatsApp
+      </a>
     </div>
   
- <!-- MODAL DESKRIPSI PRODUK 1 - VERSI LENGKAP -->
-  <div id="modal1" class="modal">
+    <!-- PRODUK 2 -->
+    <div class="product">
+      <div class="product-img-wrap">
+  <img src="kaosputih.jpg" alt="Kaos Distro" onclick="bukaLightbox(this.src)">
+        <button class="btn-info" onclick="bukaModal('modal2')">ℹ️</button>
+      </div>
+      <h3>Produk 2</h3>
+      <p><strong>Harga: Rp00.000</strong></p>
+      <a href="https://wa.me/62884?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Distro" 
+         target="_blank"
+         class="btn-wa">
+         🛒 Pesan via WhatsApp
+      </a>
+    </div>
+
+    <!-- PRODUK 3 -->
+    <div class="product">
+      <div class="product-img-wrap">
+  <img src="kaospoloshitam.jpg" alt="Kaos Distro" onclick="bukaLightbox(this.src)">
+        <button class="btn-info" onclick="bukaModal('modal3')">ℹ️</button>
+      </div>
+      <h3>Produk 3</h3>
+      <p><strong>Harga: Rp00.000</strong></p>
+      <a href="https://wa.me/6284?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Polos%20Hitam" 
+         target="_blank"
+         class="btn-wa">
+         🛒 Pesan via WhatsApp
+      </a>
+    </div>
+
+    <!-- PRODUK 4 -->
+    <div class="product">
+      <div class="product-img-wrap">
+  <img src="kaostudung.jpg" alt="Kaos Tudung" onclick="bukaLightbox(this.src)">
+        <button class="btn-info" onclick="bukaModal('modal4')">ℹ️</button>
+      </div>
+      <h3>Produk 4</h3>
+      <p><strong>Harga: Rp60.000</strong></p>
+      <a href="https://wa.me/62884?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Tudung" 
+         target="_blank"
+         class="btn-wa">
+         🛒 Pesan via WhatsApp
+      </a>
+    </div>
+  
+  <!-- PRODUK 5 -->
+    <div class="product">
+     <div class="product-img-wrap">
+  <img src="trainingmerah.jpg" alt="Training Hitam" onclick="bukaLightbox(this.src)">
+       <button class="btn-info" onclick="bukaModal('modal5')">ℹ️</button>
+      </div>
+      <h3>Produk 5</h3>
+      <p><strong>Harga: Rp00.000</strong></p>
+      <a href="https://wa.me/62084?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Celana%20Pendek%20Logo%20ALFA0002" 
+         target="_blank"
+         class="btn-wa">
+         🛒 Pesan via WhatsApp
+      </a>
+    </div>
+
+    <!-- PRODUK 6 -->
+    <div class="product">
+      <div class="product-img-wrap">
+  <img src="celanamerah.jpg" alt="Training Merah" onclick="bukaLightbox(this.src)">
+        <button class="btn-info" onclick="bukaModal('modal6')">ℹ️</button>
+      </div>
+      <h3>Produk 6</h3>
+      <p><strong>Harga: Rp00.000</strong></p>
+      <a href="https://wa.me/6284?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Celana%20Panjang" 
+         target="_blank"
+         class="btn-wa">
+         🛒 Pesan via WhatsApp
+      </a>
+    </div>
+  
+  <!-- MODAL DESKRIPSI PRODUK 1 - VERSI LENGKAP -->
+<div id="modal1" class="modal">
   <div class="modal-content">
     
     <!-- FOTO KECIL -->
-    <img src="twsbiru1.jpg" alt="TWS (True Wireless Stereo) Warna Biru" 
+    <img src="bajubiru1.jpg" alt="Kaos Lengan Pendek Biru" 
          style="width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:12px;">
     
-    <h4>TWS (True Wireless Stereo) Warna Biru</h4>
-    <h4>Deskripsi:</h4><p>Ketuk tombol untuk mengontrol musik, telephon sesuka Anda. Kesederhanaan kontrol, ketuk untuk mengontrol musik, panggilan masuk, dll., tombol untuk mengontrol telepon, tiga klik untuk mengganti lagu, klik dua kali untuk menambah atau mengurangi suara, tekan lama selama 3 detik untuk membangunkan asisten suara, menolak panggilan, klik untuk memutar, jeda, menjawab, menutup telepon</p>
-    <p><strong>Spesifikasi:</strong> Bahan: Plastik + komponen elektronik
-Pendukung: semua perangkat dan ponsel yang mendukung Bluetooth
-Kedap air: IPX 5
-Ukuran: 75 x 40 mm
-Kemasan:  Earbud mini nirkabel dengan kotak pengisi daya
-Kabel USB
-Kemasan pakingan kecil
-Jarak transmisi: Sekitar 15 meter
-Kapasitas baterai kotak earbud: 240mAh
-Kapasitas baterai earbud: 30mAh
-Ukuran kotak: 10.7*9.8*3cm
-Kategori: Earbud Bluetooth v. 5.3</p>
+    <h4>Detail: Kaos Lengan Pendek Biru</h4>
+    <p><strong>Bahan:</strong> Cotton 24s, adem dan nggak panas</p>
+    <p><strong>Ukuran:</strong> M, L, XL, XXL</p>
+    <p><strong>Warna:</strong> Biru Navy</p>
+    <p><strong>Harga:</strong> Rp75.000</p>
+    
+    <!-- TOMBOL WA -->
+    <a href="https://wa.me/62884?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Distro%20Kode%20ALFA0002" 
+       target="_blank"
+       class="close-btn" 
+       style="background:#25D366; text-decoration:none; display:block; text-align:center; margin-top:15px;">
+       🛒 Pesan via WhatsApp
+    </a>
     
     <!-- TOMBOL TUTUP -->
     <button class="close-btn" onclick="tutupModal('modal1')" 
@@ -496,39 +473,28 @@ Kategori: Earbud Bluetooth v. 5.3</p>
     </button>
   </div>
 </div>
-  
-    <!-- PRODUK 2 -->
-    <div class="product">
-      <div class="product-img-wrap">
-  <img src="twshitam.jpg" alt="Kaos Distro" onclick="bukaLightbox(this.src)">
-        <button class="btn-info" onclick="bukaModal('modal2')">ℹ️</button>
-      </div>
-      <h3>TWS Warna Hitam KOSONG</h3>
-      <p><strong>Harga: Rp55.000</strong></p>
-    </div>
 
   <!-- MODAL DESKRIPSI PRODUK 2 - VERSI LENGKAP -->
 <div id="modal2" class="modal">
   <div class="modal-content">
     
     <!-- FOTO KECIL -->
-    <img src="twshitam1.jpg" alt="Kaos Lengan Pendek Putih" 
+    <img src="kaosputih.jpg" alt="Kaos Lengan Pendek Putih" 
          style="width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:12px;">
     
-    <h4>TWS (True Wireless Stereo) Warna Hitam</h4>
-    <p><strong>Deskripsi:</strong>Ketuk tombol untuk mengontrol musik, telephon sesuka Anda. Kesederhanaan kontrol, ketuk untuk mengontrol musik, panggilan masuk, dll., tombol untuk mengontrol telepon, tiga klik untuk mengganti lagu, klik dua kali untuk menambah atau mengurangi suara, tekan lama selama 3 detik untuk membangunkan asisten suara, menolak panggilan, klik untuk memutar, jeda, menjawab, menutup telepon</p>
-    <p><strong>Spesifikasi:</strong> Bahan: Plastik + komponen elektronik
-Pendukung: semua perangkat dan ponsel yang mendukung Bluetooth
-Kedap air: IPX 5
-Ukuran: 75 x 40 mm
-Kemasan:  Earbud mini nirkabel dengan kotak pengisi daya
-Kabel USB
-Kemasan pakingan kecil
-Jarak transmisi: Sekitar 15 meter
-Kapasitas baterai kotak earbud: 240mAh
-Kapasitas baterai earbud: 30mAh
-Ukuran kotak: 10.7*9.8*3cm
-Kategori: Earbud Bluetooth v. 5.3</p>
+    <h4>Detail: Kaos Lengan Pendek Putih</h4>
+    <p><strong>Bahan:</strong> Cotton 24s, adem dan nggak panas</p>
+    <p><strong>Ukuran:</strong> M, L, XL, XXL</p>
+    <p><strong>Warna:</strong> Biru Navy</p>
+    <p><strong>Harga:</strong> Rp75.000</p>
+    
+    <!-- TOMBOL WA -->
+    <a href="https://wa.me/62884?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Distro%20Kode%20ALFA0002" 
+       target="_blank"
+       class="close-btn" 
+       style="background:#25D366; text-decoration:none; display:block; text-align:center; margin-top:15px;">
+       🛒 Pesan via WhatsApp
+    </a>
     
     <!-- TOMBOL TUTUP -->
     <button class="close-btn" onclick="tutupModal('modal2')" 
@@ -536,40 +502,29 @@ Kategori: Earbud Bluetooth v. 5.3</p>
       Tutup
     </button>
      </div>
-</div>
-
-    <!-- PRODUK 3 -->
-    <div class="product">
-      <div class="product-img-wrap">
-  <img src="twspala.jpg" alt="Kaos Distro" onclick="bukaLightbox(this.src)">
-        <button class="btn-info" onclick="bukaModal('modal3')">ℹ️</button>
-      </div>
-      <h3>TWS Warna Pala</h3>
-      <p><strong>Harga: Rp55.000</strong></p>
     </div>
 
-   <!-- MODAL DESKRIPSI PRODUK 3 - VERSI LENGKAP -->
+  <!-- MODAL DESKRIPSI PRODUK 3 - VERSI LENGKAP -->
 <div id="modal3" class="modal">
   <div class="modal-content">
     
     <!-- FOTO KECIL -->
-    <img src="twspala1.jpg" alt="Kaos Lengan Pendek Hitam" 
+    <img src="kaospoloshitam.jpg" alt="Kaos Lengan Pendek Hitam" 
          style="width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:12px;">
     
-    <h4>TWS (True Wireless Stereo) Warna Pala</h4>
-    <p><strong>Deskripsi:</strong>Ketuk tombol untuk mengontrol musik, telephon sesuka Anda. Kesederhanaan kontrol, ketuk untuk mengontrol musik, panggilan masuk, dll., tombol untuk mengontrol telepon, tiga klik untuk mengganti lagu, klik dua kali untuk menambah atau mengurangi suara, tekan lama selama 3 detik untuk membangunkan asisten suara, menolak panggilan, klik untuk memutar, jeda, menjawab, menutup telepon</p>
-    <p><strong>Spesifikasi:</strong> Bahan: Plastik + komponen elektronik
-Pendukung: semua perangkat dan ponsel yang mendukung Bluetooth
-Kedap air: IPX 5
-Ukuran: 75 x 40 mm
-Kemasan:  Earbud mini nirkabel dengan kotak pengisi daya
-Kabel USB
-Kemasan pakingan kecil
-Jarak transmisi: Sekitar 15 meter
-Kapasitas baterai kotak earbud: 240mAh
-Kapasitas baterai earbud: 30mAh
-Ukuran kotak: 10.7*9.8*3cm
-Kategori: Earbud Bluetooth v. 5.3</p>
+    <h4>Detail: Kaos Lengan Pendek Hitam</h4>
+    <p><strong>Bahan:</strong> Cotton 24s, adem dan nggak panas</p>
+    <p><strong>Ukuran:</strong> M, L, XL, XXL</p>
+    <p><strong>Warna:</strong> Biru Navy</p>
+    <p><strong>Harga:</strong> Rp75.000</p>
+    
+    <!-- TOMBOL WA -->
+    <a href="https://wa.me/62884?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Distro%20Kode%20ALFA0002" 
+       target="_blank"
+       class="close-btn" 
+       style="background:#25D366; text-decoration:none; display:block; text-align:center; margin-top:15px;">
+       🛒 Pesan via WhatsApp
+    </a>
     
     <!-- TOMBOL TUTUP -->
     <button class="close-btn" onclick="tutupModal('modal3')" 
@@ -577,40 +532,29 @@ Kategori: Earbud Bluetooth v. 5.3</p>
       Tutup
     </button>
   </div>
-</div>
+ </div>
 
-    <!-- PRODUK 4 -->
-    <div class="product">
-      <div class="product-img-wrap">
-  <img src="twsputih.jpg" alt="Kaos Tudung" onclick="bukaLightbox(this.src)">
-        <button class="btn-info" onclick="bukaModal('modal4')">ℹ️</button>
-      </div>
-      <h3>TWS Warna Putih</h3>
-      <p><strong>Harga: Rp55.000</strong></p>
-    </div>
-
-    <!-- MODAL DESKRIPSI PRODUK 4 - VERSI LENGKAP -->
+  <!-- MODAL DESKRIPSI PRODUK 4 - VERSI LENGKAP -->
 <div id="modal4" class="modal">
   <div class="modal-content">
     
     <!-- FOTO KECIL -->
-    <img src="twsputih1.jpg" alt="Kaos Lengan Panjang" 
+    <img src="kaostudung.jpg" alt="Kaos Lengan Panjang" 
          style="width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:12px;">
     
-    <h4>TWS (True Wireless Stereo) Warna Putih</h4>
-    <p><strong>Deskripsi:</strong>Ketuk tombol untuk mengontrol musik, telephon sesuka Anda. Kesederhanaan kontrol, ketuk untuk mengontrol musik, panggilan masuk, dll., tombol untuk mengontrol telepon, tiga klik untuk mengganti lagu, klik dua kali untuk menambah atau mengurangi suara, tekan lama selama 3 detik untuk membangunkan asisten suara, menolak panggilan, klik untuk memutar, jeda, menjawab, menutup telepon</p>
-    <p><strong>Spesifikasi:</strong> Bahan: Plastik + komponen elektronik
-Pendukung: semua perangkat dan ponsel yang mendukung Bluetooth
-Kedap air: IPX 5
-Ukuran: 75 x 40 mm
-Kemasan:  Earbud mini nirkabel dengan kotak pengisi daya
-Kabel USB
-Kemasan pakingan kecil
-Jarak transmisi: Sekitar 15 meter
-Kapasitas baterai kotak earbud: 240mAh
-Kapasitas baterai earbud: 30mAh
-Ukuran kotak: 10.7*9.8*3cm
-Kategori: Earbud Bluetooth v. 5.3</p>
+    <h4>Detail: Kaos Lengan Panjang</h4>
+    <p><strong>Bahan:</strong> Cotton 24s, adem dan nggak panas</p>
+    <p><strong>Ukuran:</strong> M, L, XL, XXL</p>
+    <p><strong>Warna:</strong> Biru Navy</p>
+    <p><strong>Harga:</strong> Rp75.000</p>
+    
+    <!-- TOMBOL WA -->
+    <a href="https://wa.me/62884?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Distro%20Kode%20ALFA0002" 
+       target="_blank"
+       class="close-btn" 
+       style="background:#25D366; text-decoration:none; display:block; text-align:center; margin-top:15px;">
+       🛒 Pesan via WhatsApp
+    </a>
     
     <!-- TOMBOL TUTUP -->
     <button class="close-btn" onclick="tutupModal('modal4')" 
@@ -620,38 +564,27 @@ Kategori: Earbud Bluetooth v. 5.3</p>
   </div>
 </div>
 
- <!-- PRODUK 5 -->
-    <div class="product">
-     <div class="product-img-wrap">
-  <img src="twsungu.jpg" alt="Training Hitam" onclick="bukaLightbox(this.src)">
-       <button class="btn-info" onclick="bukaModal('modal5')">ℹ️</button>
-      </div>
-      <h3>TWS Warna Ungu</h3>
-      <p><strong>Harga: Rp55.000</strong></p>
-    </div>
-
-   <!-- MODAL DESKRIPSI PRODUK 5 - VERSI LENGKAP -->
+  <!-- MODAL DESKRIPSI PRODUK 5 - VERSI LENGKAP -->
 <div id="modal5" class="modal">
   <div class="modal-content">
     
     <!-- FOTO KECIL -->
-    <img src="twsungu1.jpg" alt="Celana training Hitam" 
+    <img src="trainingmerah.jpg" alt="Celana training Hitam" 
          style="width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:12px;">
     
-    <h4>TWS (True Wireless Stereo) Warna Ungu</h4>
-    <p><strong>Deskripsi:</strong>Ketuk tombol untuk mengontrol musik, telephon sesuka Anda. Kesederhanaan kontrol, ketuk untuk mengontrol musik, panggilan masuk, dll., tombol untuk mengontrol telepon, tiga klik untuk mengganti lagu, klik dua kali untuk menambah atau mengurangi suara, tekan lama selama 3 detik untuk membangunkan asisten suara, menolak panggilan, klik untuk memutar, jeda, menjawab, menutup telepon</p>
-    <p><strong>Spesifikasi:</strong> Bahan: Plastik + komponen elektronik
-Pendukung: semua perangkat dan ponsel yang mendukung Bluetooth
-Kedap air: IPX 5
-Ukuran: 75 x 40 mm
-Kemasan:  Earbud mini nirkabel dengan kotak pengisi daya
-Kabel USB
-Kemasan pakingan kecil
-Jarak transmisi: Sekitar 15 meter
-Kapasitas baterai kotak earbud: 240mAh
-Kapasitas baterai earbud: 30mAh
-Ukuran kotak: 10.7*9.8*3cm
-Kategori: Earbud Bluetooth v. 5.3</p>
+    <h4>Detail: Celana Panjang Hitam</h4>
+    <p><strong>Bahan:</strong> Cotton 24s, adem dan nggak panas</p>
+    <p><strong>Ukuran:</strong> M, L, XL, XXL</p>
+    <p><strong>Warna:</strong> Biru Navy</p>
+    <p><strong>Harga:</strong> Rp75.000</p>
+    
+    <!-- TOMBOL WA -->
+    <a href="https://wa.me/62884?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Distro%20Kode%20ALFA0002" 
+       target="_blank"
+       class="close-btn" 
+       style="background:#25D366; text-decoration:none; display:block; text-align:center; margin-top:15px;">
+       🛒 Pesan via WhatsApp
+    </a>
     
     <!-- TOMBOL TUTUP -->
     <button class="close-btn" onclick="tutupModal('modal5')" 
@@ -661,121 +594,27 @@ Kategori: Earbud Bluetooth v. 5.3</p>
   </div>
 </div>
 
-    <!-- PRODUK 6 -->
-    <div class="product">
-      <div class="product-img-wrap">
-  <img src="twswarnakulit.jpg" alt="Training Merah" onclick="bukaLightbox(this.src)">
-        <button class="btn-info" onclick="bukaModal('modal6')">ℹ️</button>
-      </div>
-      <h3>TWS Warna Kulit</h3>
-      <p><strong>Harga: Rp55.000</strong></p>
-    </div>
-
-    <!-- MODAL DESKRIPSI PRODUK 6 - VERSI LENGKAP -->
+  <!-- MODAL DESKRIPSI PRODUK 6 - VERSI LENGKAP -->
 <div id="modal6" class="modal">
   <div class="modal-content">
     
     <!-- FOTO KECIL -->
-    <img src="twswarnakulit1.jpg" alt="Training Merah" 
+    <img src="celanamerah.jpg" alt="Training Merah" 
          style="width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:12px;">
     
-    <h4>TWS (True Wireless Stereo) Warna Kulit</h4>
-    <p><strong>Deskripsi:</strong>Ketuk tombol untuk mengontrol musik, telephon sesuka Anda. Kesederhanaan kontrol, ketuk untuk mengontrol musik, panggilan masuk, dll., tombol untuk mengontrol telepon, tiga klik untuk mengganti lagu, klik dua kali untuk menambah atau mengurangi suara, tekan lama selama 3 detik untuk membangunkan asisten suara, menolak panggilan, klik untuk memutar, jeda, menjawab, menutup telepon</p>
-    <p><strong>Spesifikasi:</strong> Bahan: Plastik + komponen elektronik
-Pendukung: semua perangkat dan ponsel yang mendukung Bluetooth
-Kedap air: IPX 5
-Ukuran: 75 x 40 mm
-Kemasan:  Earbud mini nirkabel dengan kotak pengisi daya
-Kabel USB
-Kemasan pakingan kecil
-Jarak transmisi: Sekitar 15 meter
-Kapasitas baterai kotak earbud: 240mAh
-Kapasitas baterai earbud: 30mAh
-Ukuran kotak: 10.7*9.8*3cm
-Kategori: Earbud Bluetooth v. 5.3</p>
+    <h4>Detail: Training Merah</h4>
+    <p><strong>Bahan:</strong> Cotton 24s, adem dan nggak panas</p>
+    <p><strong>Ukuran:</strong> M, L, XL, XXL</p>
+    <p><strong>Warna:</strong> Biru Navy</p>
+    <p><strong>Harga:</strong> Rp75.000</p>
     
-    <!-- TOMBOL TUTUP -->
-    <button class="close-btn" onclick="tutupModal('modal6')" 
-            style="background:#eee; color:#333; margin-top:8px;">
-      Tutup
-    </button>
-  </div>
-</div>
-  
-
-  <!-- PRODUK 7 -->
-    <div class="product">
-      <div class="product-img-wrap">
-  <img src="produk7.jpg" alt="Produk 7" onclick="bukaLightbox(this.src)">
-        <button class="btn-info" onclick="bukaModal('modal7')">ℹ️</button>
-      </div>
-      <h3>Produk 7</h3>
-      <p><strong>Harga: Rp00.000</strong></p>
-    </div>
-
-   <!-- MODAL DESKRIPSI PRODUK 7 - VERSI LENGKAP -->
-<div id="modal6" class="modal">
-  <div class="modal-content">
-    
-    <!-- FOTO KECIL -->
-    <img src="twswarnakulit1.jpg" alt="Training Merah" 
-         style="width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:12px;">
-    
-    <h4>TWS (True Wireless Stereo) Warna Kulit</h4>
-    <p><strong>Deskripsi:</strong>Ketuk tombol untuk mengontrol musik, telephon sesuka Anda. Kesederhanaan kontrol, ketuk untuk mengontrol musik, panggilan masuk, dll., tombol untuk mengontrol telepon, tiga klik untuk mengganti lagu, klik dua kali untuk menambah atau mengurangi suara, tekan lama selama 3 detik untuk membangunkan asisten suara, menolak panggilan, klik untuk memutar, jeda, menjawab, menutup telepon</p>
-    <p><strong>Spesifikasi:</strong> Bahan: Plastik + komponen elektronik
-Pendukung: semua perangkat dan ponsel yang mendukung Bluetooth
-Kedap air: IPX 5
-Ukuran: 75 x 40 mm
-Kemasan:  Earbud mini nirkabel dengan kotak pengisi daya
-Kabel USB
-Kemasan pakingan kecil
-Jarak transmisi: Sekitar 15 meter
-Kapasitas baterai kotak earbud: 240mAh
-Kapasitas baterai earbud: 30mAh
-Ukuran kotak: 10.7*9.8*3cm
-Kategori: Earbud Bluetooth v. 5.3</p>
-    
-    <!-- TOMBOL TUTUP -->
-    <button class="close-btn" onclick="tutupModal('modal6')" 
-            style="background:#eee; color:#333; margin-top:8px;">
-      Tutup
-    </button>
-  </div>
-</div>
-
-  <!-- PRODUK 8 -->
-    <div class="product">
-      <div class="product-img-wrap">
-  <img src="produk8.jpg" alt="Produk 8" onclick="bukaLightbox(this.src)">
-        <button class="btn-info" onclick="bukaModal('modal8')">ℹ️</button>
-      </div>
-      <h3>Produk 8</h3>
-      <p><strong>Harga: Rp00.000</strong></p>
-    </div>
-
-  <!-- MODAL DESKRIPSI PRODUK 8 - VERSI LENGKAP -->
-<div id="modal6" class="modal">
-  <div class="modal-content">
-    
-    <!-- FOTO KECIL -->
-    <img src="twswarnakulit1.jpg" alt="Training Merah" 
-         style="width:100%; height:180px; object-fit:cover; border-radius:8px; margin-bottom:12px;">
-    
-    <h4>TWS (True Wireless Stereo) Warna Kulit</h4>
-    <p><strong>Deskripsi:</strong>Ketuk tombol untuk mengontrol musik, telephon sesuka Anda. Kesederhanaan kontrol, ketuk untuk mengontrol musik, panggilan masuk, dll., tombol untuk mengontrol telepon, tiga klik untuk mengganti lagu, klik dua kali untuk menambah atau mengurangi suara, tekan lama selama 3 detik untuk membangunkan asisten suara, menolak panggilan, klik untuk memutar, jeda, menjawab, menutup telepon</p>
-    <p><strong>Spesifikasi:</strong> Bahan: Plastik + komponen elektronik
-Pendukung: semua perangkat dan ponsel yang mendukung Bluetooth
-Kedap air: IPX 5
-Ukuran: 75 x 40 mm
-Kemasan:  Earbud mini nirkabel dengan kotak pengisi daya
-Kabel USB
-Kemasan pakingan kecil
-Jarak transmisi: Sekitar 15 meter
-Kapasitas baterai kotak earbud: 240mAh
-Kapasitas baterai earbud: 30mAh
-Ukuran kotak: 10.7*9.8*3cm
-Kategori: Earbud Bluetooth v. 5.3</p>
+    <!-- TOMBOL WA -->
+    <a href="https://wa.me/62884?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Distro%20Kode%20ALFA0002" 
+       target="_blank"
+       class="close-btn" 
+       style="background:#25D366; text-decoration:none; display:block; text-align:center; margin-top:15px;">
+       🛒 Pesan via WhatsApp
+    </a>
     
     <!-- TOMBOL TUTUP -->
     <button class="close-btn" onclick="tutupModal('modal6')" 
@@ -787,42 +626,15 @@ Kategori: Earbud Bluetooth v. 5.3</p>
 
  </div>
   </div> <!-- PENUTUP .container -->
-
-  <!-- ALFA QR -->
-    <div class="product">
+    
+  <div class="product">
       <div class="product-img-wrap">
   <img src="qrcode.png" alt="ALFA QR" onclick="bukaLightbox(this.src)">
-        <button class="btn-info" onclick="bukaModal('alfaqr')">ℹ️</button>
       </div>
       <h3>ALFA QR</h3>
-    </div>
+  </div>
   
- <!-- MODAL DESKRIPSI ALFA QR - VERSI LENGKAP -->
-  <div id="alfaqr" class="modal">
-  <div class="modal-content">
-    
-    <h4>Terimakasih Sudah Berkunjung</h4>
-    <h4>Tentang Kami:</h4><p></p>
-    <p><strong>ALFA-Online-Shopping! Kami masih berusaha meningkatkan performa Web Aplikasi kami agar Anda dapat merasakan pengalaman berbelanja yang lebih menyenangkan!
-Harapan kami, pengunjung merasa puas belanja di ALFA-Online-Shopping, karena Web Aplikasi kami masih membutuhkan saran dan kritik dari pengunjung, agar kami bisa menyempurnakannya lagi.
-Nikmati Belanja Bebas Ongkir
-ALFA-Online-Shopping menawarkan pengalaman belanja online yang lebih praktis dan cepat bagi pengunjung setiap harinya. Pengunjung dapat membeli dengan aman kapan pun dan di mana pun!
-Nikmati berbagai penawaran & fitur terbaik:
-- Tempat belanja online produk lokal. Temukan beragam produk lokal terbaik.
-- Bebas ongkir.
-- Pilih produk favoritmu.
-- Nikmati harga terbaik</strong></p>
-    <h4>Terimakasih dan Selamat Berbelanja</h4><p></p>
-    
-    <!-- TOMBOL TUTUP -->
-    <button class="close-btn" onclick="tutupModal('alfaqr')" 
-            style="background:#eee; color:#333; margin-top:8px;">
-      Tutup
-    </button>
-  </div>
-  </div>
-
-   <div class="info-box">
+  <div class="info-box">
   <h3>Ketentuan Berlaku Di Setiap Belanja</h3>
   <p>Apakah Anda mencari pakaian terbaru dan terhebat tanpa menguras kantong? 
     Jangan mencari lebih jauh!
@@ -833,7 +645,7 @@ Nikmati berbagai penawaran & fitur terbaik:
  Jadi tunggu apa lagi? Kunjungi toko online kami hari ini dan mulailah berbelanja!
     Penawaran ini tidak akan bertahan selamanya, jadi jangan lewatkan.
  Terima kasih</p>
-   </div>
+  </div>
   
   </div> <!-- PENUTUP .container -->
   
@@ -868,15 +680,6 @@ function tutupLightbox() {
   document.body.style.overflow = 'auto'; // Buka scroll lagi
     }
   </script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-  var swiper = new Swiper(".mySwiper", {
-    zoom: true,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-  });
-</script>
+
 </body>
 </html>
