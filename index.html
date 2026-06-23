@@ -359,15 +359,15 @@
      <div class="product-img-wrap">
   <img src="bajubiru1.jpg" alt="Celana Pendek" onclick="bukaLightbox(this.src)">
        <button class="btn-info" onclick="bukaModal('modal1')">ℹ️</button>
+       
+     <div class="produk-card">
+  <h3>TWS Alpha Pro 1</h3>
+  <p>Harga: Rp 150.000</p>
+  <!-- Tombol Tambah Keranjang -->
+  <button onclick="tambahKeKeranjang('TWS Alpha Pro 1', 150000, 'twsproduk1.jpg')">
+    Tambah ke Keranjang
+  </button>
      </div>
-      <h3>Produk 1</h3>
-      <p><strong>Harga: Rp00.000</strong></p>
-      <a href="https://wa.me/62084?text=Halo%20ALFA%20Shop,%20saya%20mau%20order%20Kaos%20Distro%20Kode%20ALFA0001" 
-         target="_blank"
-         class="btn-wa">
-         🛒 Pesan via WhatsApp
-      </a>
-    </div>
   
     <!-- PRODUK 2 -->
     <div class="product">
@@ -716,6 +716,50 @@ function tutupLightbox() {
             videoPlayer.src = fileURL;
             videoPlayer.play();
         }
+
+    // 1. Inisialisasi keranjang dari localStorage (ambil data lama jika ada, atau buat baru jika kosong)
+let keranjang = JSON.parse(localStorage.getItem('alfa_cart')) || [];
+
+// 2. Fungsi untuk menambah produk ke keranjang
+function tambahKeKeranjang(nama, harga, gambar) {
+    // Cek apakah produk tersebut sudah ada di keranjang
+    const produkAda = keranjang.find(item => item.nama === nama);
+
+    if (produkAda) {
+        // Jika sudah ada, cukup tambahkan jumlahnya (quantity)
+        produkAda.jumlah += 1;
+    } else {
+        // Jika belum ada, masukkan data produk baru
+        keranjang.push({
+            nama: nama,
+            harga: harga,
+            gambar: gambar,
+            jumlah: 1
+        });
+    }
+
+    // Simpan perubahan ke memori HP (localStorage) agar permanen meskipun offline
+    localStorage.setItem('alfa_cart', JSON.stringify(keranjang));
+    
+    // Tampilkan notifikasi kecil
+    alert(`${nama} berhasil dimasukkan ke keranjang!`);
+    
+    // (Opsional) Update angka hitungan di ikon keranjang belanja Anda
+    updateIkonKeranjang();
+}
+
+// 3. Fungsi untuk menghitung total item di ikon keranjang
+function updateIkonKeranjang() {
+    const totalItem = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+    const badgeKeranjang = document.getElementById('badge-keranjang');
+    if (badgeKeranjang) {
+        badgeKeranjang.innerText = totalItem;
+    }
+}
+
+// Jalankan fungsi hitung ikon saat halaman pertama kali dibuka
+updateIkonKeranjang();
+    
   </script>
 
 </body>
