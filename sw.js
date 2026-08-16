@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dandana-v14';
+const CACHE_NAME = 'dandana-v15';
 const urlsToCache = [
   'index.html',
   'admin.html',
