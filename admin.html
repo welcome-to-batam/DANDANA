@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Mas Gondrong</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
+    .container { max-width: 500px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    h2 { text-align: center; color: #0052cc; }
+    input, textarea, select { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px; }
+    button { padding: 10px; background: #0052cc; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; margin-top: 5px;}
+    button:hover { background: #0040a0; }
+    .info { text-align: center; font-size: 14px; color: #666; margin-bottom: 20px; }
+    
+    /* CSS DAFTAR PRODUK ADMIN */
+    .admin-product-list { margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
+    .admin-product-item { display: flex; align-items: center; gap: 12px; background: #f9f9f9; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+    .admin-product-thumb { width: 50px; height: 50px; border-radius: 4px; object-fit: cover; background: #ddd; flex-shrink: 0; }
+    .admin-product-info { flex-grow: 1; }
+    .admin-product-info strong { font-size: 14px; display: block; }
+    .admin-product-info small { font-size: 12px; color: #666; word-break: break-all; }
+    .admin-btn-action { display: flex; gap: 5px; }
+    .btn-edit { background: #ffc107; color: #000; border: none; padding: 6px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: bold; width: auto; margin:0;}
+    .btn-delete { background: #dc3545; color: white; border: none; padding: 6px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: bold; width: auto; margin:0;}
+    
+    /* FORM EDIT */
+    #edit-form-container { display: none; background: #fff3cd; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #ffeeba; }
+    #edit-form-container h3 { margin-top: 0; color: #856404; text-align: center; }
+    .btn-logout { background: #666; margin-top: 20px; }
+  </style>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, query, onSnapshot, deleteDoc, doc, getDoc, updateDoc, collectionGroup, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    // === PASTE KONFIGURASI FIREBASE KAMU DI SINI ===
+    const firebaseConfig = {
+  apiKey: "AIzaSyCtzYShY70eQGLNUnoQCi91uy7aMuFsYsc",
+  authDomain: "mas-gondrong.firebaseapp.com",
+  projectId: "mas-gondrong",
+  storageBucket: "mas-gondrong.firebasestorage.app",
+  messagingSenderId: "191854522046",
+  appId: "1:191854522046:web:61bed6d89182392044b8ef"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // FUNGSI LOGIN
+    window.loginAdmin = function() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      signInWithEmailAndPassword(auth, email, password).catch((error) => alert("Login Gagal! Periksa email/password."));
+    }
+
+    // FUNGSI LOGOUT
+    window.logoutAdmin = function() { signOut(auth); }
+
+    // FUNGSI TAMBAH PRODUK
+    window.tambahProduk = function() {
+      const nama = document.getElementById('p-nama').value;
+      const harga = document.getElementById('p-harga').value;
+      const hargaCoret = document.getElementById('p-hargaCoret').value;
+      const rating = document.getElementById('p-rating').value;
+      const terjual = document.getElementById('p-terjual').value;
+      const stok = document.getElementById('p-stok').value;
+      const cod = document.getElementById('p-cod').checked;
+      const gambarRaw = document.getElementById('p-gambar').value;
+      const desc = document.getElementById('p-desc').value;
+
+      if(!nama || !harga || !gambarRaw || !wa) {
+        alert("Kolom wajib diisi!");
+        return;
+      }
+
+      const gambarArray = gambarRaw.split(' ').filter(link => link.trim() !== '');
+
+      addDoc(collection(db, "products"), {
+        nama: nama, harga: harga, hargaCoret: hargaCoret, rating: rating, terjual: terjual, stok: stok, cod: cod,
+        gambar: gambarArray, wa: wa, desc: desc, createdAt: new Date()
+      }).then(() => {
+        alert("Produk berhasil ditambahkan!");
+        document.getElementById('p-nama').value = '';
+        document.getElementById('p-harga').value = '';
+        document.getElementById('p-hargaCoret').value = '';
+        document.getElementById('p-rating').value = '';
+        document.getElementById('p-terjual').value = '';
+        document.getElementById('p-stok').value = '';
+        document.getElementById('p-cod').checked = false;
+        document.getElementById('p-gambar').value = '';
+        document.getElementById('p-wa').value = '';
+        document.getElementById('p-desc').value = '';
+      }).catch((error) => alert("Gagal: " + error));
+    }
+
+    // FUNGSI HAPUS PRODUK
+    window.hapusProduk = function(id) {
+      if(confirm("Yakin mau hapus produk ini?")) { deleteDoc(doc(db, "products", id)); }
+    }
+
+    // FUNGSI BUKA FORM EDIT
+    window.bukaFormEdit = async function(id) {
+      const docSnap = await getDoc(doc(db, "products", id));
+      if (docSnap.exists()) {
+        const p = docSnap.data();
+        document.getElementById('edit-id').value = id;
+        document.getElementById('edit-nama').value = p.nama || '';
+        document.getElementById('edit-harga').value = p.harga || '';
+        document.getElementById('edit-hargaCoret').value = p.hargaCoret || '';
+        document.getElementById('edit-rating').value = p.rating || '';
+        document.getElementById('edit-terjual').value = p.terjual || '';
+        document.getElementById('edit-stok').value = p.stok || '';
+        document.getElementById('edit-cod').checked = p.cod || false;
+        
+        let gambarStr = Array.isArray(p.gambar) ? p.gambar.join(' ') : p.gambar;
+        document.getElementById('edit-gambar').value = gambarStr || '';
+        document.getElementById('edit-desc').value = p.desc || '';
+        
+        document.getElementById('edit-form-container').style.display = 'block';
+        document.getElementById('edit-form-container').scrollIntoView({behavior: 'smooth'});
+      }
+    }
+
+    // FUNGSI SIMPAN EDIT
+    window.simpanEdit = async function() {
+      const id = document.getElementById('edit-id').value;
+      const gambarRaw = document.getElementById('edit-gambar').value;
+      const gambarArray = gambarRaw.split(' ').filter(link => link.trim() !== '');
+
+      const dataBaru = {
+        nama: document.getElementById('edit-nama').value,
+        harga: document.getElementById('edit-harga').value,
+        hargaCoret: document.getElementById('edit-hargaCoret').value,
+        rating: document.getElementById('edit-rating').value,
+        terjual: document.getElementById('edit-terjual').value,
+        stok: document.getElementById('edit-stok').value,
+        cod: document.getElementById('edit-cod').checked,
+        gambar: gambarArray,
+        desc: document.getElementById('edit-desc').value
+      };
+
+      try {
+        await updateDoc(doc(db, "products", id), dataBaru);
+        alert("Produk berhasil diupdate!");
+        batalEdit();
+      } catch (error) { alert("Gagal update: " + error); }
+    }
+
+    // FUNGSI BATAL EDIT
+    window.batalEdit = function() { document.getElementById('edit-form-container').style.display = 'none'; }
+
+    // CEK STATUS LOGIN & TAMPILKAN PRODUK
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('user-email').innerText = user.email;
+
+        const q = query(collection(db, "products"));
+        onSnapshot(q, (snapshot) => {
+          const listDiv = document.getElementById('product-list');
+          listDiv.innerHTML = '<h3>Daftar Produk Saat Ini</h3>';
+          if(snapshot.empty) {
+            listDiv.innerHTML += '<p>Belum ada produk.</p>';
+          } else {
+            snapshot.forEach((docSnap) => {
+              const p = docSnap.data();
+              const id = docSnap.id;
+              let thumb = Array.isArray(p.gambar) ? (p.gambar[0] || '') : (p.gambar.split(' ')[0] || '');
+              
+              listDiv.innerHTML += `
+                <div class="admin-product-item">
+                  <img src="${thumb}" class="admin-product-thumb" alt="Thumb" onerror="this.src='https://via.placeholder.com/50'">
+                  <div class="admin-product-info">
+                    <strong>${p.nama}</strong>
+                    <small>${p.harga} | Stok: ${p.stok || 0}</small>
+                  </div>
+                  <div class="admin-btn-action">
+                    <button class="btn-edit" onclick="bukaFormEdit('${id}')">Edit</button>
+                    <button class="btn-delete" onclick="hapusProduk('${id}')">Hapus</button>
+                  </div>
+                </div>
+              `;
+            });
+          }
+        });
+      } else {
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('dashboard').style.display = 'none';
+      }
+    });
+
+            // ===================================================
+        // KODE BACA SEMUA ULASAN BUAT ADMIN (NOTIFIKASI)
+        // ===================================================
+        const reviewListDiv = document.getElementById('admin-review-list');
+        const reviewBadge = document.getElementById('review-badge');
+        
+        // Kita gunakan query global untuk ambil semua ulasan dari semua produk
+        // (Catatan: Ini butuh izin khusus di Firebase Rules, kita set nanti)
+        const reviewsQuery = query(collectionGroup(db, "reviews"), orderBy("createdAt", "desc"));
+        
+        onSnapshot(reviewsQuery, (snapshot) => {
+          if (snapshot.empty) {
+            reviewListDiv.innerHTML = '<p style="font-size:14px; color:#999;">Belum ada ulasan baru.</p>';
+            reviewBadge.style.display = 'none';
+          } else {
+            reviewBadge.style.display = 'inline-block';
+            reviewBadge.innerText = snapshot.size; // Jumlah total ulasan
+            
+            reviewListDiv.innerHTML = '';
+            snapshot.forEach((docSnap) => {
+              const r = docSnap.data();
+              const productId = docSnap.ref.parent.parent.id; // Ambil ID Produknya
+              
+              // Bikin bintang
+              let stars = '';
+              for(let i=1; i<=5; i++) { stars += i <= r.rating ? '⭐' : '✩'; }
+              
+              // Tampilkan di daftar
+              reviewListDiv.innerHTML += `
+                <div class="admin-product-item" style="flex-direction:column; align-items:flex-start; gap:5px;">
+                  <div style="display:flex; justify-content:space-between; width:100%;">
+                    <strong>🙋 ${r.name}</strong>
+                    <span class="review-rating">${stars}</span>
+                  </div>
+                  <p style="margin:0; color:#555; font-size:13px; line-height:1.4;">"${r.text}"</p>
+                  <a href="produk.html?id=${productId}" target="_blank" style="font-size:12px; color:#1877f2; text-decoration:none;">Lihat Produk →</a>
+                </div>
+              `;
+            });
+          }
+        });
+  </script>
+</head>
+<body>
+
+  <!-- FORM LOGIN -->
+  <div class="container" id="login-form">
+    <h2>Login Admin Mas Gondrong</h2>
+    <input type="email" id="email" placeholder="Email Admin" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="loginAdmin()">Login</button>
+  </div>
+
+  <!-- DASHBOARD ADMIN -->
+  <div class="container" id="dashboard" style="display:none;">
+    <h2>Dashboard Admin</h2>
+    <p class="info">Login sebagai: <strong id="user-email"></strong></p>
+    
+    <h3>Tambah Produk Baru</h3>
+    <input type="text" id="p-nama" placeholder="Nama Produk (cth: Kaos Ipin)">
+    <input type="text" id="p-harga" placeholder="Harga Normal (Rp100.000)">
+    <input type="text" id="p-hargaCoret" placeholder="Harga Coret (Rp150.000)">
+    <input type="text" id="p-rating" placeholder="Rating (4.9)">
+    <input type="text" id="p-terjual" placeholder="Terjual (25)">
+    <input type="text" id="p-stok" placeholder="Stok (50)">
+    <label style="display:flex; align-items:center; gap:8px; margin:8px 0; font-size:14px;">
+    <input type="checkbox" id="p-cod" style="width:auto;"> Tersedia COD
+    </label>
+    <input type="text" id="p-gambar" placeholder="Link Foto (Pisah spasi)">
+    <textarea id="p-desc" placeholder="Deskripsi Produk" rows="4"></textarea>
+    <button onclick="tambahProduk()">+ Tambah Produk</button>
+    
+        <!-- KOTAK ULASAN MASUK -->
+    <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+      <h3 style="display:flex; align-items:center; gap:8px;">
+        💬 Ulasan Masuk 
+        <span id="review-badge" style="background:#dc3545; color:white; font-size:12px; padding:2px 8px; border-radius:50%; display:none;"></span>
+      </h3>
+      <div id="admin-review-list" style="max-height: 300px; overflow-y: auto;">
+        <p style="font-size:14px; color:#999;">Belum ada ulasan baru.</p>
+      </div>
+    </div>
+
+    <div class="admin-product-list" id="product-list">
+      <!-- Daftar produk akan muncul di sini -->
+    </div>
+
+    <!-- FORM EDIT (Hidden) -->
+    <div id="edit-form-container">
+      <h3>✏️ Edit Produk</h3>
+      <input type="hidden" id="edit-id">
+      <input type="text" id="edit-nama" placeholder="Nama Produk">
+      <input type="text" id="edit-harga" placeholder="Harga">
+      <input type="text" id="edit-hargaCoret" placeholder="Harga Coret">
+      <input type="text" id="edit-rating" placeholder="Rating">
+      <input type="text" id="edit-terjual" placeholder="Terjual">
+      <input type="text" id="edit-stok" placeholder="Stok">
+      <label style="display:flex; align-items:center; gap:8px; margin:8px 0; font-size:14px;">
+        <input type="checkbox" id="edit-cod" style="width:auto;"> Tersedia COD
+      </label>
+      <input type="text" id="edit-gambar" placeholder="Link Foto">
+      <textarea id="edit-desc" placeholder="Deskripsi" rows="4"></textarea>
+      <button onclick="simpanEdit()" style="background:#28a745; margin-bottom:8px;">💾 Simpan Perubahan</button>
+      <button onclick="batalEdit()" style="background:#6c757d;">Batal</button>
+    </div>
+
+    <button class="btn-logout" onclick="logoutAdmin()">Logout</button>
+  </div>
+
+</body>
+      </html>
