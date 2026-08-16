@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mas-gondrong-v13';
+const CACHE_NAME = 'dandana-v13';
 const urlsToCache = [
   'index.html',
   'admin.html',
@@ -28,7 +28,7 @@ importScripts("https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js")
 
 // Initialize Firebase di SW
 const firebaseConfig = {
-  apiKey: "AIzaSyCtzYShY70eQGLNUnoQCi91uy7aMuFsYsc",
+  apiKey: "AIzaSyCCi91uy7aMuFsYsc",
   authDomain: "mas-gondrong.firebaseapp.com",
   projectId: "mas-gondrong",
   storageBucket: "mas-gondrong.firebasestorage.app",
