@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Produk - Mas Gondrong</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0052cc">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; background-color: #f0f2f5; color: #1c1e21; padding-bottom: 70px; /* Padding biar gak ketutup tombol WA sticky */ }
+    .back-btn { display: inline-block; margin: 15px; color: #1877f2; text-decoration: none; font-weight: 600; }
+    .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+    .gallery-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; background: #f8f8f8; height: 400px; }
+    .gallery-item { flex: 0 0 100%; scroll-snap-align: start; height: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
+    .gallery-item img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in; }
+    
+    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px 15px; cursor: pointer; font-size: 18px; z-index: 10; border-radius: 50%; display: none; }
+    @media (min-width: 768px) { .nav-btn { display: block; } }
+    .nav-prev { left: 10px; } .nav-next { right: 10px; }
+
+    .thumbnails { display: flex; gap: 8px; padding: 10px; overflow-x: auto; background: #fff; }
+    .thumb { width: 50px; height: 50px; border-radius: 4px; object-fit: cover; border: 2px solid transparent; cursor: pointer; }
+    .thumb.active { border-color: #1877f2; }
+
+    .product-details { padding: 20px; }
+    .product-details h1 { margin: 0 0 10px 0; font-size: 24px; }
+    
+    .price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; flex-wrap: wrap; }
+    .product-price { font-size: 22px; color: #ee4d2d; font-weight: 700; margin: 0; }
+    .price-strike { font-size: 14px; color: #999; text-decoration: line-through; }
+    .price-discount { background: #fff0ef; color: #ee4d2d; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+    
+    .product-meta { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #555; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f0f0f0; }
+    .rating-stars { color: #ffce3d; font-weight: bold; }
+    .meta-divider { width: 1px; height: 12px; background: #ddd; }
+    
+    .badge-cod { display: inline-block; background: #fff0ef; color: #ee4d2d; border: 1px solid #ee4d2d; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; margin-bottom: 15px; }
+    .stock-row { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; font-size: 14px; color: #555; }
+    .stock-row .stock-val { font-weight: bold; color: #333; }
+    
+    .desc-title { margin: 15px 0 8px 0; font-size: 16px; color: #333; }
+    .product-desc { line-height: 1.6; font-size: 15px; color: #444; white-space: pre-wrap; background: #f9f9f9; padding: 15px; border-radius: 8px; }
+    
+    /* ULASAN */
+    .review-section { margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 20px; }
+    .review-section h2 { font-size: 16px; margin: 0 0 15px 0; color: #333; }
+    .review-item { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; font-size: 14px; }
+    .review-item .review-user { font-weight: bold; margin-bottom: 5px; display: flex; justify-content: space-between; }
+    /* TAMBAHKAN CSS INI BIAR IKON ORANG NONGOL OTOMATIS */
+    .review-item .review-user span:first-child::before {
+      content: "🙋 "; /* Ikon orang */
+      margin-right: 4px;
+    }
+    .review-item .review-rating { color: #ffce3d; }
+    .review-form { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+    .review-form input, .review-form textarea, .review-form select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-family: inherit; }
+    .review-form button { background: #0052cc; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: 600; }
+
+    /* TOMBOL WA STICKY (Nempel di bawah) */
+    .sticky-wa-btn {
+      position: fixed; bottom: 0; left: 0; width: 100%;
+      background: #25D366; color: white; text-align: center;
+      padding: 15px 0; font-weight: bold; font-size: 16px;
+      text-decoration: none; z-index: 999;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.2); border: none;
+    }
+
+    .lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); flex-direction: column; justify-content: center; align-items: center; }
+    .lightbox-img-container { width: 100%; height: 80%; overflow: auto; display: flex; justify-content: center; align-items: center; }
+    .lightbox-img-container img { max-width: 200%; width: 100%; object-fit: contain; }
+    .close-lightbox { position: absolute; top: 20px; right: 20px; color: white; font-size: 40px; cursor: pointer; }
+    .loading { text-align: center; padding: 50px 20px; color: #65676b; }
+  </style>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, addDoc, query, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // === PASTE KONFIGURASI FIREBASE KAMU DI SINI ===
+    const firebaseConfig = {
+  apiKey: "AIzaSyCtzYShY70eQGLNUnoQCi91uy7aMuFsYsc",
+  authDomain: "mas-gondrong.firebaseapp.com",
+  projectId: "mas-gondrong",
+  storageBucket: "mas-gondrong.firebasestorage.app",
+  messagingSenderId: "191854522046",
+  appId: "1:191854522046:web:61bed6d89182392044b8ef"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // GANTI DENGAN NOMOR WA BOS (Nomor asli, tanpa tanda + atau 0 di depan)
+    const nomorWA = "6285765850084"; 
+
+    let currentImages = []; 
+    let currentIndex = 0; 
+
+    async function loadProduct() {
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get('id');
+
+      if (!productId) {
+        document.getElementById('product-container').innerHTML = '<p class="loading">Produk tidak ditemukan.</p>';
+        return;
+      }
+
+      try {
+        const docRef = doc(db, "products", productId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const p = docSnap.data();
+          document.title = p.nama + " - Mas Gondrong";
+          
+          // Buat Link WA Otomatis
+          const pesanWA = `Halo Mas Gondrong, saya mau order produk: ${p.nama}`;
+          const linkWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesanWA)}`;
+          document.getElementById('wa-sticky').href = linkWA;
+
+          // Cek Gambar
+          let images = [];
+          if (Array.isArray(p.gambar)) {
+            images = p.gambar;
+          } else if (typeof p.gambar === 'string') {
+            images = p.gambar.split(' ').filter(link => link.trim() !== '');
+          }
+          currentImages = images;
+
+          let galleryHTML = '';
+          images.forEach((imgUrl, index) => {
+            galleryHTML += `
+              <div class="gallery-item">
+                <img src="${imgUrl}" alt="Foto ${index + 1}" onclick="bukaLightbox(${index})">
+              </div>
+            `;
+          });
+
+          let thumbsHTML = '';
+          images.forEach((imgUrl, index) => {
+            thumbsHTML += `<img src="${imgUrl}" class="thumb" onclick="gantiFoto(${index})" alt="Thumb ${index + 1}">`;
+          });
+
+          // Hitung Diskon
+          let discountHTML = '';
+          if (p.hargaCoret) {
+            let angkaHarga = parseInt(p.harga.replace(/[^0-9]/g, ''));
+            let angkaCoret = parseInt(p.hargaCoret.replace(/[^0-9]/g, ''));
+            if (angkaCoret > angkaHarga) {
+              let persen = Math.round(((angkaCoret - angkaHarga) / angkaCoret) * 100);
+              discountHTML = `<span class="price-discount">-${persen}%</span>`;
+            }
+          }
+
+          let codHTML = p.cod === true ? `<div class="badge-cod">💵 COD (Bayar di Tempat)</div>` : '';
+
+          document.getElementById('product-container').innerHTML = `
+            <div style="position: relative;">
+              <div class="gallery-container" id="gallery">${galleryHTML}</div>
+              <button class="nav-btn nav-prev" onclick="scrollGallery(-1)">❮</button>
+              <button class="nav-btn nav-next" onclick="scrollGallery(1)">❯</button>
+            </div>
+            <div class="thumbnails">${thumbsHTML}</div>
+            
+            <div class="product-details">
+              <h1>${p.nama}</h1>
+              
+              <div class="price-row">
+                <span class="product-price">${p.harga}</span>
+                ${discountHTML}
+                <span class="price-strike">${p.hargaCoret || ''}</span>
+              </div>
+              
+              <div class="product-meta">
+                <span class="rating-stars">⭐ ${p.rating || '5.0'}</span>
+                <span class="meta-divider"></span>
+                <span>${p.terjual || '0'} Terjual</span>
+              </div>
+              
+              ${codHTML}
+              
+              <div class="stock-row">
+                <span>Stok: <span class="stock-val">${p.stok || 'Banyak'}</span></span>
+              </div>
+              
+              <h3 class="desc-title">Deskripsi Produk</h3>
+              <div class="product-desc">${p.desc || 'Tidak ada deskripsi.'}</div>
+              
+              <div class="review-section">
+                <h2>💬 Ulasan Pembeli</h2>
+                <div class="review-form">
+                  <input type="text" id="review-name" placeholder="Nama Anda">
+                  <select id="review-rating" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box;">
+                    <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                    <option value="4">⭐⭐⭐⭐ (4)</option>
+                    <option value="3">⭐⭐⭐ (3)</option>
+                    <option value="2">⭐⭐ (2)</option>
+                    <option value="1">⭐ (1)</option>
+                  </select>
+                  <textarea id="review-text" placeholder="Tulis ulasan Anda..." rows="3"></textarea>
+                  <button onclick="kirimUlasan('${productId}')">Kirim Ulasan</button>
+                </div>
+                <div id="review-list">
+                  <p style="font-size:14px; color:#999;">Belum ada ulasan.</p>
+                </div>
+              </div>
+            </div>
+          `;
+
+          window.loadUlasan(productId);
+
+        } else {
+          document.getElementById('product-container').innerHTML = '<p class="loading">Produk tidak ditemukan di database.</p>';
+        }
+      } catch (error) {
+        document.getElementById('product-container').innerHTML = '<p class="loading">Terjadi error saat memuat data.</p>';
+        console.error("Error:", error);
+      }
+    }
+
+    // FUNGSI NAVIGASI GALERI
+    window.scrollGallery = function(dir) {
+      const gallery = document.getElementById('gallery');
+      gallery.scrollBy({ left: dir * gallery.offsetWidth, behavior: 'smooth' });
+    }
+    window.gantiFoto = function(index) {
+      const gallery = document.getElementById('gallery');
+      gallery.scrollTo({ left: index * gallery.offsetWidth, behavior: 'smooth' });
+    }
+
+    // FUNGSI LIGHTBOX (ZOOM)
+    window.bukaLightbox = function(index) {
+      currentIndex = index;
+      document.getElementById('lightbox-img').src = currentImages[index];
+      document.getElementById('lightbox').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    window.geserLightbox = function(dir) {
+      currentIndex += dir;
+      if (currentIndex < 0) currentIndex = currentImages.length - 1;
+      if (currentIndex >= currentImages.length) currentIndex = 0;
+      document.getElementById('lightbox-img').src = currentImages[currentIndex];
+    }
+    window.tutupLightbox = function() {
+      document.getElementById('lightbox').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // FUNGSI SISTEM ULASAN
+    window.kirimUlasan = async function(productId) {
+      const name = document.getElementById('review-name').value.trim();
+      const rating = document.getElementById('review-rating').value;
+      const text = document.getElementById('review-text').value.trim();
+
+      if (!name || !text) {
+        alert("Nama dan Ulasan wajib diisi ya, Bos! :)");
+        return;
+      }
+
+      const btnKirim = document.querySelector('.review-form button');
+      btnKirim.innerText = "Mengirim...";
+      btnKirim.disabled = true;
+
+      try {
+        await addDoc(collection(db, "products", productId, "reviews"), {
+          name: name, rating: parseInt(rating), text: text, createdAt: new Date()
+        });
+        alert("Ulasan berhasil dikirim! Terima kasih.");
+        document.getElementById('review-name').value = '';
+        document.getElementById('review-text').value = '';
+        btnKirim.innerText = "Kirim Ulasan";
+        btnKirim.disabled = false;
+      } catch (error) {
+        alert("Gagal kirim ulasan: " + error);
+        btnKirim.innerText = "Kirim Ulasan";
+        btnKirim.disabled = false;
+      }
+    }
+
+    window.loadUlasan = function(productId) {
+      const reviewList = document.getElementById('review-list');
+      reviewList.innerHTML = '<p style="font-size:14px; color:#999;">Memuat ulasan...</p>';
+
+      const q = query(collection(db, "products", productId, "reviews"), orderBy("createdAt", "desc"));
+      
+      onSnapshot(q, (snapshot) => {
+        if (snapshot.empty) {
+          reviewList.innerHTML = '<p style="font-size:14px; color:#999;">Belum ada ulasan. Jadilah yang pertama!</p>';
+          return;
+        }
+        reviewList.innerHTML = '';
+        snapshot.forEach((doc) => {
+          const r = doc.data();
+          let stars = '';
+          for(let i=1; i<=5; i++) { stars += i <= r.rating ? '⭐' : '✩'; }
+          reviewList.innerHTML += `
+            <div class="review-item">
+              <div class="review-user">
+                <span>${r.name}</span>
+                <span class="review-rating">${stars}</span>
+              </div>
+              <p style="margin:0; color:#555; line-height:1.5;">${r.text}</p>
+            </div>
+          `;
+        });
+      });
+    }
+
+    loadProduct();
+  </script>
+</head>
+<body>
+
+  <a href="index.html" class="back-btn">← Kembali ke Etalase</a>
+
+  <div class="container" id="product-container">
+    <div class="loading">Memuat detail produk...</div>
+  </div>
+
+  <!-- TOMBOL WA STICKY -->
+  <a href="#" id="wa-sticky" target="_blank" class="sticky-wa-btn">💬 Pesan via WhatsApp</a>
+
+  <!-- LIGHTBOX ZOOM -->
+  <div id="lightbox" class="lightbox" onclick="tutupLightbox()">
+    <span class="close-lightbox">&times;</span>
+    <div class="lightbox-img-container" onclick="event.stopPropagation()">
+      <img id="lightbox-img" src="" alt="Zoom Foto">
+    </div>
+    <div style="position: absolute; bottom: 30px; display: flex; gap: 20px;" onclick="event.stopPropagation()">
+      <button onclick="geserLightbox(-1)" style="font-size: 24px; padding: 10px 20px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 50%; cursor: pointer;">❮</button>
+      <button onclick="geserLightbox(1)" style="font-size: 24px; padding: 10px 20px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 50%; cursor: pointer;">❯</button>
+    </div>
+  </div>
+
+  <!-- SCRIPT PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('PWA Siap diinstall!'))
+        .catch(err => console.log('Gagal daftar SW', err));
+    }
+  </script>
+
+</body>
+</html>
