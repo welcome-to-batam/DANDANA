@@ -1,8 +1,8 @@
 {
-  "name": "Mas Gondrong Online Shopping",
-  "short_name": "MasGondrong",
+  "name": "DANDANA Shopping",
+  "short_name": "DANDANA",
   "description": "Belanja online tanpa ribet dengan harga terbaik di Batam.",
-  "start_url": "https://mas-gondrong.github.io/mas-gondrong/",
+  "start_url": "https://welcome-to-batam.github.io/DANDANA/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0052cc",
