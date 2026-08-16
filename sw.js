@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dandana-v13';
+const CACHE_NAME = 'dandana-v14';
 const urlsToCache = [
   'index.html',
   'admin.html',
@@ -28,12 +28,13 @@ importScripts("https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js")
 
 // Initialize Firebase di SW
 const firebaseConfig = {
-  apiKey: "AIzaSyCCi91uy7aMuFsYsc",
-  authDomain: "mas-gondrong.firebaseapp.com",
-  projectId: "mas-gondrong",
-  storageBucket: "mas-gondrong.firebasestorage.app",
-  messagingSenderId: "191854522046",
-  appId: "1:191854522046:web:61bed6d89182392044b8ef"
+  apiKey: "AIzaSyD9IUgPlIxcTosQFq_J3KDuN3Sn6qNqA2g",
+  authDomain: "dandana-b8ea4.firebaseapp.com",
+  databaseURL: "https://dandana-b8ea4-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "dandana-b8ea4",
+  storageBucket: "dandana-b8ea4.firebasestorage.app",
+  messagingSenderId: "658739735941",
+  appId: "1:658739735941:web:b330a50e41af929bb968ec"
 };
 firebase.initializeApp(firebaseConfig);
 
