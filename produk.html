@@ -79,19 +79,19 @@
 
     // === PASTE KONFIGURASI FIREBASE KAMU DI SINI ===
     const firebaseConfig = {
-  apiKey: "AIzNUnoQCi91uy7aMuFsYsc",
-  authDomain: "mas-grong.firebaseapp.com",
-  projectId: "mas-goong",
-  storageBucket: "mas-gondrong.firebasestorage.app",
-  messagingSenderId: "191854522046",
-  appId: "1:191854522046:web:61bed6d89182392044b8ef"
+  apiKey: "AIzaSyD9IUgPlIxcTosQFq_J3KDuN3Sn6qNqA2g",
+  authDomain: "dandana-b8ea4.firebaseapp.com",
+  databaseURL: "https://dandana-b8ea4-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "dandana-b8ea4",
+  storageBucket: "dandana-b8ea4.firebasestorage.app",
+  messagingSenderId: "658739735941",
+  appId: "1:658739735941:web:b330a50e41af929bb968ec"
 };
-
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
     // GANTI DENGAN NOMOR WA BOS (Nomor asli, tanpa tanda + atau 0 di depan)
-    const nomorWA = "6250084"; 
+    const nomorWA = "6285765850084"; 
 
     let currentImages = []; 
     let currentIndex = 0; 
@@ -114,7 +114,7 @@
           document.title = p.nama + " - Mas Gondrong";
           
           // Buat Link WA Otomatis
-          const pesanWA = `Halo Mas Gondrong, saya mau order produk: ${p.nama}`;
+          const pesanWA = `Halo DANDANA, saya mau order produk: ${p.nama}`;
           const linkWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesanWA)}`;
           document.getElementById('wa-sticky').href = linkWA;
 
